@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept> // domain_error
 #include <vector>
 
 using namespace std;
@@ -16,21 +17,22 @@ public:
                 }
             }
         }
-
-        return solution; // no solution
+        throw domain_error("No two sum solution");
     }
 };
 
 int main()
 {
     vector<int> input = {2, 7, 11, 15, -4, 23};
-    int target = 19;
+    int target = 100;
 
     Solution s;
     vector<int> resulting_indices = s.twoSum(input, target);
-    if (resulting_indices.size() != 0)
+    try {
         cout << resulting_indices[0] << ", " << resulting_indices[1] << endl;
-    else
-        cout << "No two sum solution" << endl;
+    } catch(domain_error e){
+        cout << e.what() << endl;
+    }
+
     return 0;
 }
