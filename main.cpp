@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept> // domain_error
+#include <unordered_map> // unordered_map
 #include <vector>
 
 using namespace std;
@@ -7,15 +8,15 @@ using namespace std;
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        std::vector<int> solution;
         size_t size_nums = nums.size();
+        unordered_map<int, int> hashmap;
 
-        for (int i = 0; i != size_nums; ++i){
-            for (int j = i + 1; j != size_nums; ++j){
-                if (nums[i] + nums[j] == target){
-                    return solution = {i, j};
-                }
-            }
+        for (size_t i = 0; i != size_nums; ++i){
+            int complement = target - nums[i];
+            auto search = hashmap.find(complement);
+            if (search != hashmap.end() && search->second != i)
+                return {i, search->second};
+            hashmap[nums[i]] = i;
         }
         throw domain_error("No two sum solution");
     }
@@ -23,8 +24,8 @@ public:
 
 int main()
 {
-    vector<int> input = {2, 7, 11, 15, -4, 23};
-    int target = 100;
+    vector<int> input = {3, 3}; //{2, 7, 11, 15, -4, 23};
+    int target = 6;
 
     Solution s;
     vector<int> resulting_indices = s.twoSum(input, target);
